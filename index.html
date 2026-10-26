@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AP Precalculus Ch 5A Practice Exam & Study Hub</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- KaTeX for math rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .katex-display { margin: 0.5em 0; overflow-x: auto; overflow-y: hidden; }
+        .tab-active { border-bottom: 2px solid #3b82f6; color: #3b82f6; font-weight: 600; }
+        body { transition: background-color 0.2s ease, color 0.2s ease; }
+        canvas { touch-action: none; }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-full flex flex-col font-sans antialiased">
+
+    <!-- Top Header Navigation -->
+    <header class="sticky top-0 z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                
+                <!-- Logo & Course Info -->
+                <div class="flex items-center space-x-3">
+                    <div class="p-2.5 bg-gradient-to-tr from-brand-600 to-indigo-600 text-white rounded-xl shadow-md">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-base sm:text-lg leading-tight text-slate-900 dark:text-white">AP Precalculus Ch 5A</h1>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Exam Mastery & Practice Portal</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Links & Controls -->
+                <div class="flex items-center space-x-2 sm:space-x-4">
+                    <nav class="flex space-x-1 sm:space-x-2">
+                        <button id="nav-quiz" onclick="switchTab('quiz')" class="px-3 py-2 text-xs sm:text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition tab-active">
+                            Exam Practice
+                        </button>
+                        <button id="nav-schedule" onclick="switchTab('schedule')" class="px-3 py-2 text-xs sm:text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition flex items-center gap-1.5">
+                            <span>Study Plan</span>
+                            <span id="study-timer-badge" class="hidden sm:inline-block px-2 py-0.5 text-[10px] bg-brand-100 dark:bg-brand-900/60 text-brand-700 dark:text-brand-300 rounded-full font-semibold">5h Goal</span>
+                        </button>
+                    </nav>
+
+                    <button id="theme-toggle" onclick="toggleTheme()" class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition" title="Toggle Light/Dark Theme">
+                        <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 100 2h1z"></path>
+                        </svg>
+                        <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- TAB 1: PRACTICE EXAM & QUIZ ENGINE -->
+        <section id="tab-quiz" class="space-y-6">
+
+            <!-- Quiz Controls & Filter Bar -->
+            <div id="quiz-filter-card" class="bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-200 dark:border-slate-700/80 transition">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                    
+                    <!-- Filters & Topic Selection -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 w-full lg:w-auto">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Filter Topic:</label>
+                            <select id="topic-filter" onchange="applyQuizFilters()" class="w-full bg-slate-100 dark:bg-slate-700 border-none rounded-xl text-xs font-semibold px-3 py-2 text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-brand-500">
+                                <option value="all">All Topics (15 Questions)</option>
+                                <option value="composition">Composition of Functions</option>
+                                <option value="inverse">Inverse Functions</option>
+                                <option value="exponentials">Exponential Properties & Graphs</option>
+                                <option value="manipulation">Exponential Equations</option>
+                                <option value="sequences">Arithmetic & Geometric Sequences</option>
+                                <option value="tables">Linear, Quadratic, Exponential Tables</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Feedback Mode:</label>
+                            <select id="mode-select" onchange="changeMode(this.value)" class="w-full bg-slate-100 dark:bg-slate-700 border-none rounded-xl text-xs font-semibold px-3 py-2 text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-brand-500">
+                                <option value="instant">Instant Step-by-Step Feedback</option>
+                                <option value="exam">Full Test Mode (Grade at End)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Question Count:</label>
+                            <select id="count-filter" onchange="applyQuizFilters()" class="w-full bg-slate-100 dark:bg-slate-700 border-none rounded-xl text-xs font-semibold px-3 py-2 text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-brand-500">
+                                <option value="all">All Available</option>
+                                <option value="5">5 Questions</option>
+                                <option value="10">10 Questions</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Progress Stats -->
+                    <div class="flex items-center justify-between lg:justify-end space-x-4 border-t lg:border-t-0 pt-3 lg:pt-0 border-slate-100 dark:border-slate-700">
+                        <div class="text-right">
+                            <span id="question-progress-label" class="text-xs font-bold text-brand-600 dark:text-brand-400 block">Question 1 of 15</span>
+                            <span id="answered-count-label" class="text-[11px] text-slate-400 font-medium">0 answered</span>
+                        </div>
+                        <button onclick="resetQuiz()" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs font-semibold transition">
+                            Reset Quiz
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="w-full bg-slate-200 dark:bg-slate-700 h-2 rounded-full mt-4 overflow-hidden">
+                    <div id="quiz-progress-bar" class="bg-brand-600 h-full w-0 transition-all duration-300"></div>
+                </div>
+            </div>
+
+            <!-- Question Box & Scratchpad Grid -->
+            <div id="quiz-workspace" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+                <!-- Left Column: Question & Options (7 cols on lg) -->
+                <div class="lg:col-span-7 bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-700/80 flex flex-col justify-between">
+                    <div>
+                        <!-- Category Badge & Header -->
+                        <div class="flex items-center justify-between mb-4">
+                            <span id="q-category-tag" class="text-[11px] font-bold uppercase tracking-wider bg-brand-50 dark:bg-brand-900/40 text-brand-600 dark:text-brand-300 px-3 py-1 rounded-lg">
+                                Composition of Functions
+                            </span>
+                            <span id="q-number-indicator" class="text-xs font-medium text-slate-400">#1</span>
+                        </div>
+
+                        <!-- Question Body -->
+                        <div id="question-text" class="text-slate-900 dark:text-slate-100 font-medium text-base sm:text-lg leading-relaxed mb-6">
+                            <!-- Dynamic Content -->
+                        </div>
+
+                        <!-- Options -->
+                        <div id="options-container" class="space-y-3">
+                            <!-- Dynamic Choices -->
+                        </div>
+
+                        <!-- Explanation Box -->
+                        <div id="explanation-box" class="hidden mt-6 p-5 rounded-2xl border bg-slate-50 dark:bg-slate-900/60 transition">
+                            <div id="explanation-header" class="font-bold text-sm mb-2 flex items-center space-x-2"></div>
+                            <div id="explanation-body" class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 space-y-2 leading-relaxed"></div>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Footer -->
+                    <div class="flex items-center justify-between mt-8 pt-5 border-t border-slate-100 dark:border-slate-700/60">
+                        <button id="btn-prev-q" onclick="navigateQuestion(-1)" class="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 text-xs sm:text-sm font-semibold hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed transition">
+                            ← Previous
+                        </button>
+
+                        <button id="btn-next-q" onclick="navigateQuestion(1)" class="px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs sm:text-sm font-semibold shadow-md transition">
+                            Next Question →
+                        </button>
+
+                        <button id="btn-grade-exam" onclick="gradeExam()" class="hidden px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-semibold shadow-md transition">
+                            Finish & Grade Exam
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Column: Interactive Scratchpad Workspace (5 cols on lg) -->
+                <div class="lg:col-span-5 bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-200 dark:border-slate-700/80 flex flex-col">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-4 h-4 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                            </svg>
+                            <h3 class="font-bold text-xs uppercase tracking-wider text-slate-700 dark:text-slate-300">Scratchpad / Work Area</h3>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="setScratchTool('pen')" id="tool-pen" class="px-2.5 py-1 text-xs rounded-lg bg-brand-100 dark:bg-brand-900/60 text-brand-700 dark:text-brand-300 font-semibold">Pen</button>
+                            <button onclick="setScratchTool('eraser')" id="tool-eraser" class="px-2.5 py-1 text-xs rounded-lg border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 font-semibold">Eraser</button>
+                            <button onclick="clearScratchpad()" class="px-2.5 py-1 text-xs rounded-lg text-rose-600 dark:text-rose-400 font-semibold hover:bg-rose-50 dark:hover:bg-rose-950/40">Clear</button>
+                        </div>
+                    </div>
+
+                    <!-- Canvas -->
+                    <div class="relative flex-grow min-h-[280px] bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
+                        <canvas id="scratch-canvas" class="w-full h-full cursor-crosshair block"></canvas>
+                        <div class="absolute bottom-2 right-2 text-[10px] text-slate-400 pointer-events-none select-none">Draw math steps here</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Score Summary Dashboard (Hidden until graded) -->
+            <div id="results-card" class="hidden bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg border border-slate-200 dark:border-slate-700 text-center space-y-6">
+                <div>
+                    <span class="inline-block p-4 rounded-full bg-brand-50 dark:bg-brand-900/40 text-brand-600 dark:text-brand-400 mb-3">
+                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </span>
+                    <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Exam Results</h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-xs sm:text-sm mt-1">Here is your topic mastery breakdown for AP Precalculus Ch 5A</p>
+                </div>
+
+                <!-- Big Score Display -->
+                <div class="flex justify-center items-center">
+                    <div class="flex flex-col items-center justify-center w-40 h-40 rounded-full border-8 border-brand-500/20 bg-slate-50 dark:bg-slate-800/80 shadow-inner">
+                        <span id="final-score-percent" class="text-4xl font-extrabold text-brand-600 dark:text-brand-400">0%</span>
+                        <span id="final-score-fraction" class="text-xs text-slate-500 font-semibold mt-1">0 / 0</span>
+                    </div>
+                </div>
+
+                <!-- Topic Breakdown -->
+                <div class="text-left max-w-xl mx-auto bg-slate-50 dark:bg-slate-900/60 p-5 rounded-2xl border border-slate-200 dark:border-slate-700/80 space-y-3">
+                    <h3 class="font-bold text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700 pb-2">Topic Mastery Breakdown</h3>
+                    <div id="topic-breakdown-list" class="space-y-2 text-xs sm:text-sm"></div>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex flex-wrap justify-center gap-3 pt-2">
+                    <button id="btn-retake-missed" onclick="retakeMissedQuestions()" class="px-5 py-2.5 rounded-xl bg-slate-800 dark:bg-slate-200 text-white dark:text-slate-900 font-semibold text-xs sm:text-sm hover:opacity-90 transition">
+                        Retake Missed Questions
+                    </button>
+                    <button onclick="resetQuiz()" class="px-5 py-2.5 rounded-xl bg-brand-600 text-white font-semibold text-xs sm:text-sm hover:bg-brand-700 transition">
+                        Retake Full Exam
+                    </button>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- TAB 2: STUDY SCHEDULE & LOG TRACKER -->
+        <section id="tab-schedule" class="hidden space-y-6">
+
+            <!-- Dynamic Countdown & Goal Tracker -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- Exam Countdown Card -->
+                <div class="bg-gradient-to-br from-brand-600 to-indigo-700 text-white rounded-2xl p-6 shadow-md flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs uppercase font-bold tracking-wider opacity-80">Test Day Countdown</span>
+                            <span class="text-xs bg-white/20 px-2.5 py-0.5 rounded-full font-semibold">Thursday Exam</span>
+                        </div>
+                        <h3 class="text-xl font-extrabold mb-1">AP Precalc Ch 5A</h3>
+                        <p class="text-xs opacity-90">Stay on track to hit your 5-hour study target.</p>
+                    </div>
+
+                    <div class="my-6">
+                        <div id="countdown-timer-display" class="font-mono text-2xl sm:text-3xl font-extrabold tracking-tight">
+                            00d 00h 00m 00s
+                        </div>
+                        <p class="text-[11px] opacity-75 mt-1">Remaining until Thursday Morning</p>
+                    </div>
+
+                    <div class="w-full bg-white/20 h-2 rounded-full overflow-hidden">
+                        <div id="schedule-progress-bar" class="bg-white h-full w-0 transition-all duration-300"></div>
+                    </div>
+                </div>
+
+                <!-- Study Time Logger Card -->
+                <div class="md:col-span-2 bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-700/80 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="font-bold text-slate-900 dark:text-white text-base">Interactive Study Timer & Log</h3>
+                            <span id="total-logged-text" class="text-xs font-extrabold text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-900/40 px-3 py-1 rounded-lg">0.0 / 5.0 Hours Logged</span>
+                        </div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Use the timer while studying or log completed study blocks manually.</p>
+                    </div>
+
+                    <!-- Live Stopwatch Widget -->
+                    <div class="my-4 bg-slate-50 dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-700/80 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="font-mono text-2xl font-bold text-slate-800 dark:text-slate-100" id="stopwatch-display">00:00:00</div>
+                            <span id="stopwatch-status" class="text-xs text-slate-400 font-medium">(Paused)</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button id="btn-timer-start" onclick="toggleStopwatch()" class="px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-semibold hover:bg-brand-700 transition">Start Timer</button>
+                            <button onclick="logStopwatchTime()" class="px-3 py-2 bg-emerald-600 text-white rounded-xl text-xs font-semibold hover:bg-emerald-700 transition">Save Log</button>
+                            <button onclick="resetStopwatch()" class="px-3 py-2 border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 rounded-xl text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-800 transition">Reset</button>
+                        </div>
+                    </div>
+
+                    <!-- Manual Input -->
+                    <div class="flex items-center space-x-3 pt-2">
+                        <input type="number" id="manual-hours-input" step="0.5" min="0.5" max="10" placeholder="Hours (e.g., 1.5)" class="bg-slate-100 dark:bg-slate-700 border-none rounded-xl text-xs px-3 py-2 text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-brand-500 w-36">
+                        <button onclick="logManualTime()" class="px-4 py-2 bg-slate-800 dark:bg-slate-200 text-white dark:text-slate-900 rounded-xl text-xs font-semibold hover:opacity-90 transition">
+                            + Add Manual Hours
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- 3-Day Checklist Plan -->
+            <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-700/80">
+                <h3 class="font-bold text-lg text-slate-900 dark:text-white mb-4">3-Day Structured Study Plan</h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <!-- Tuesday -->
+                    <div class="bg-slate-50 dark:bg-slate-900/60 p-5 rounded-2xl border border-slate-200 dark:border-slate-700/80 flex flex-col">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="font-bold text-xs uppercase tracking-wider text-brand-600 dark:text-brand-400">Tuesday</span>
+                            <span class="text-xs bg-brand-100 dark:bg-brand-900/50 text-brand-700 dark:text-brand-300 px-2 py-0.5 rounded font-semibold">Goal: 1.5 Hours</span>
+                        </div>
+                        <h4 class="font-bold text-slate-900 dark:text-white text-sm mb-2">Compositions & Inverses</h4>
+                        <ul class="text-xs text-slate-600 dark:text-slate-300 space-y-2 mb-4 flex-grow">
+                            <li class="flex items-start"><input type="checkbox" id="task-tue-1" onchange="updateTaskProgress()" class="mt-0.5 mr-2 rounded text-brand-600"><label for="task-tue-1">Practice $f(g(x))$, $g(f(x))$, and self-compositions.</label></li>
+                            <li class="flex items-start"><input type="checkbox" id="task-tue-2" onchange="updateTaskProgress()" class="mt-0.5 mr-2 rounded text-brand-600"><label for="task-tue-2">Find inverse functions algebraically & check domains.</label></li>
+                            <li class="flex items-start"><input type="checkbox" id="task-tue-3" onchange="updateTaskProgress()" class="mt-0.5 mr-2 rounded text-brand-600"><label for="task-tue-3">Verify inverse functions using $f(f^{-1}(x)) = x$.</label></li>
+                        </ul>
+                    </div>
+
+                    <!-- Wednesday -->
+                    <div class="bg-slate-50 dark:bg-slate-900/60 p-5 rounded-2xl border border-slate-200 dark:border-slate-700/80 flex flex-col">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="font-bold text-xs uppercase tracking-wider text-brand-600 dark:text-brand-400">Wednesday</span>
+                            <span class="text-xs bg-brand-100 dark:bg-brand-900/50 text-brand-700 dark:text-brand-300 px-2 py-0.5 rounded font-semibold">Goal: 1.5 Hours</span>
+                        </div>
+                        <h4 class="font-bold text-slate-900 dark:text-white text-sm mb-2">Exponentials & Sequences</h4>
+                        <ul class="text-xs text-slate-600 dark:text-slate-300 space-y-2 mb-4 flex-grow">
+                            <li class="flex items-start"><input type="checkbox" id="task-wed-1" onchange="updateTaskProgress()" class="mt-0.5 mr-2 rounded text-brand-600"><label for="task-wed-1">Review exponential graphs (concavity & asymptote $y=k$).</label></li>
+                            <li class="flex items-start"><input type="checkbox" id="task-wed-2" onchange="updateTaskProgress()" class="mt-0.5 mr-2 rounded text-brand-600"><label for="task-wed-2">Solve simple exponential equations with common bases.</label></li>
+                            <li class="flex items-start"><input type="checkbox" id="task-wed-3" onchange="updateTaskProgress()" class="mt-0.5 mr-2 rounded text-brand-600"><label for="task-wed-3">Find explicit formulas for arithmetic & geometric sequences.</label></li>
+                            <li class="flex items-start"><input type="checkbox" id="task-wed-4" onchange="updateTaskProgress()" class="mt-0.5 mr-2 rounded text-brand-600"><label for="task-wed-4">Identify Linear, Quadratic, and Exponential tables.</label></li>
+                        </ul>
+                    </div>
+
+                    <!-- Thursday -->
+                    <div class="bg-slate-50 dark:bg-slate-900/60 p-5 rounded-2xl border border-slate-200 dark:border-slate-700/80 flex flex-col">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="font-bold text-xs uppercase tracking-wider text-brand-600 dark:text-brand-400">Thursday (Test Day)</span>
+                            <span class="text-xs bg-brand-100 dark:bg-brand-900/50 text-brand-700 dark:text-brand-300 px-2 py-0.5 rounded font-semibold">Goal: 2.0 Hours</span>
+                        </div>
+                        <h4 class="font-bold text-slate-900 dark:text-white text-sm mb-2">Full Practice Exam Polish</h4>
+                        <ul class="text-xs text-slate-600 dark:text-slate-300 space-y-2 mb-4 flex-grow">
+                            <li class="flex items-start"><input type="checkbox" id="task-thu-1" onchange="updateTaskProgress()" class="mt-0.5 mr-2 rounded text-brand-600"><label for="task-thu-1">Run Full Exam mode on this app (15 questions).</label></li>
+                            <li class="flex items-start"><input type="checkbox" id="task-thu-2" onchange="updateTaskProgress()" class="mt-0.5 mr-2 rounded text-brand-600"><label for="task-thu-2">Review step-by-step solutions for any missed problems.</label></li>
+                            <li class="flex items-start"><input type="checkbox" id="task-thu-3" onchange="updateTaskProgress()" class="mt-0.5 mr-2 rounded text-brand-600"><label for="task-thu-3">Re-verify sequence formulas ($a_n = a_1 + (n-1)d$ & $a_n = a_1 r^{n-1}$).</label></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- App JavaScript Engine -->
+    <script>
+        // Comprehensive 15 Questions based on screenshot topics
+        const fullQuizDatabase = [
+            {
+                id: 1,
+                topic: "Composition of Functions",
+                topicKey: "composition",
+                question: "Let $f(x) = \\sqrt{x - 4}$ and $g(x) = 2x + 1$. Find $(f \\circ g)(x)$ and state its domain in interval notation.",
+                options: [
+                    "$(f \\circ g)(x) = \\sqrt{2x - 3}$ with domain $[\\frac{3}{2}, \\infty)$",
+                    "$(f \\circ g)(x) = \\sqrt{2x - 3}$ with domain $(-\\infty, \\infty)$",
+                    "$(f \\circ g)(x) = 2\\sqrt{x - 4} + 1$ with domain $[4, \\infty)$",
+                    "$(f \\circ g)(x) = \\sqrt{2x + 1} - 4$ with domain $[-\\frac{1}{2}, \\infty)$"
+                ],
+                correct: 0,
+                explanation: "<strong>Step 1: Form Composition $(f \\circ g)(x)$:</strong><br>Substitute $g(x)$ into $f(x)$:<br>$$(f \\circ g)(x) = f(g(x)) = f(2x + 1) = \\sqrt{(2x + 1) - 4} = \\sqrt{2x - 3}$$<br><strong>Step 2: Determine Domain:</strong><br>The radicand must be non-negative: $2x - 3 \\ge 0 \\implies 2x \\ge 3 \\implies x \\ge \\frac{3}{2}$.<br>Domain is $[\\frac{3}{2}, \\infty)$."
+            },
+            {
+                id: 2,
+                topic: "Composition of Functions",
+                topicKey: "composition",
+                question: "Given $f(x) = x^2 - 3$ and $g(x) = \\sqrt{x + 2}$, find $(g \\circ f)(x)$ and its domain.",
+                options: [
+                    "$(g \\circ f)(x) = \\sqrt{x^2 - 1}$ with domain $(-\\infty, -1] \\cup [1, \\infty)$",
+                    "$(g \\circ f)(x) = x - 1$ with domain $[-2, \\infty)$",
+                    "$(g \\circ f)(x) = \\sqrt{x^2 - 1}$ with domain $[-1, 1]$",
+                    "$(g \\circ f)(x) = x^2 - 1$ with domain $(-\\infty, \\infty)$"
+                ],
+                correct: 0,
+                explanation: "<strong>Step 1: Composition:</strong><br>$(g \\circ f)(x) = g(f(x)) = g(x^2 - 3) = \\sqrt{(x^2 - 3) + 2} = \\sqrt{x^2 - 1}$.<br><br><strong>Step 2: Domain:</strong><br>Require $x^2 - 1 \\ge 0 \\implies x^2 \\ge 1 \\implies x \\le -1$ or $x \\ge 1$.<br>In interval notation: $(-\\infty, -1] \\cup [1, \\infty)$."
+            },
+            {
+                id: 3,
+                topic: "Composition of Functions",
+                topicKey: "composition",
+                question: "If $f(x) = \\frac{x}{x + 2}$, evaluate $(f \\circ f)(x)$ in simplified form.",
+                options: [
+                    "$(f \\circ f)(x) = \\frac{x}{3x + 4}$",
+                    "$(f \\circ f)(x) = \\frac{x^2}{(x + 2)^2}$",
+                    "$(f \\circ f)(x) = \\frac{x}{x + 4}$",
+                    "$(f \\circ f)(x) = 1$"
+                ],
+                correct: 0,
+                explanation: "<strong>Step-by-step:</strong><br>$$f(f(x)) = \\frac{\\frac{x}{x+2}}{\\frac{x}{x+2} + 2}$$<br>Multiply numerator and denominator by $(x+2)$:<br>$$=\\frac{x}{x + 2(x + 2)} = \\frac{x}{x + 2x + 4} = \\frac{x}{3x + 4}$$"
+            },
+            {
+                id: 4,
+                topic: "Inverse Functions",
+                topicKey: "inverse",
+                question: "Find the inverse function $f^{-1}(x)$ for $f(x) = \\frac{4x - 1}{2x + 3}$.",
+                options: [
+                    "$f^{-1}(x) = \\frac{3x + 1}{4 - 2x}$",
+                    "$f^{-1}(x) = \\frac{2x + 3}{4x - 1}$",
+                    "$f^{-1}(x) = \\frac{-3x - 1}{2x - 4}$",
+                    "$f^{-1}(x) = \\frac{4x + 1}{2x - 3}$"
+                ],
+                correct: 0,
+                explanation: "<strong>Algebraic Steps:</strong><br>1) Swap $x$ and $y$: $x = \\frac{4y - 1}{2y + 3}$<br>2) Multiply: $x(2y + 3) = 4y - 1 \\implies 2xy + 3x = 4y - 1$<br>3) Collect $y$ terms: $3x + 1 = 4y - 2xy \\implies 3x + 1 = y(4 - 2x)$<br>4) Solve: $y = \\frac{3x + 1}{4 - 2x}$."
+            },
+            {
+                id: 5,
+                topic: "Inverse Functions",
+                topicKey: "inverse",
+                question: "Which expression verifies that $f(x) = 3x - 5$ and $g(x) = \\frac{x + 5}{3}$ are inverse functions?",
+                options: [
+                    "$f(g(x)) = 3\\left(\\frac{x + 5}{3}\\right) - 5 = x + 5 - 5 = x$",
+                    "$f(x) \\cdot g(x) = 1$",
+                    "$f(g(x)) = g(f(x)) = 0$",
+                    "$f(x) + g(x) = x$"
+                ],
+                correct: 0,
+                explanation: "To verify inverse functions via composition, show $f(g(x)) = x$ AND $g(f(x)) = x$. Here $f(g(x)) = 3\\left(\\frac{x+5}{3}\\right) - 5 = x+5-5 = x$."
+            },
+            {
+                id: 6,
+                topic: "Inverse Functions",
+                topicKey: "inverse",
+                question: "The point $(3, -7)$ lies on the graph of $y = f(x)$. What point MUST lie on the graph of $y = f^{-1}(x)$?",
+                options: [
+                    "$(-7, 3)$",
+                    "$(-3, 7)$",
+                    "$(7, -3)$",
+                    "$(\\frac{1}{3}, -\\frac{1}{7})$"
+                ],
+                correct: 0,
+                explanation: "The graph of $f^{-1}(x)$ swaps input and output values: $(x,y) \\to (y,x)$. Therefore $(3,-7) \\to (-7,3)$."
+            },
+            {
+                id: 7,
+                topic: "Exponential Functions",
+                topicKey: "exponentials",
+                question: "Describe the behavior and concavity of the exponential function $f(x) = -3 \\cdot (2)^x + 5$.",
+                options: [
+                    "Decreasing and Concave Down with asymptote $y = 5$",
+                    "Increasing and Concave Up with asymptote $y = 5$",
+                    "Decreasing and Concave Up with asymptote $y = -3$",
+                    "Increasing and Concave Down with asymptote $y = 0$"
+                ],
+                correct: 0,
+                explanation: "• Base $b = 2 > 1$ with a negative multiplier $a = -3$ means $f(x)$ is **decreasing**.<br>• Negative vertical stretch ($a < 0$) flips the curve down, making it **concave down**.<br>• As $x \\to -\\infty$, $-3(2)^x \\to 0$, so horizontal asymptote is $y = 5$."
+            },
+            {
+                id: 8,
+                topic: "Exponential Functions",
+                topicKey: "exponentials",
+                question: "What is the domain and range of $g(x) = 5 \\cdot (0.4)^x - 2$?",
+                options: [
+                    "Domain: $(-\\infty, \\infty)$, Range: $(-2, \\infty)$",
+                    "Domain: $[0, \\infty)$, Range: $(-2, \\infty)$",
+                    "Domain: $(-\\infty, \\infty)$, Range: $(-\\infty, -2)$",
+                    "Domain: $(-2, \\infty)$, Range: $(-\\infty, \\infty)$"
+                ],
+                correct: 0,
+                explanation: "• Exponential functions are defined everywhere: Domain = $(-\\infty, \\infty)$.<br>• Since $0.4^x > 0$ for all $x$, $5(0.4)^x > 0$, so $g(x) > -2$. Range = $(-2, \\infty)$."
+            },
+            {
+                id: 9,
+                topic: "Exponential Manipulation",
+                topicKey: "manipulation",
+                question: "Solve for $x$: $8^{x - 1} = 32^{2x}$.",
+                options: [
+                    "$x = -\\frac{3}{7}$",
+                    "$x = -\\frac{1}{2}$",
+                    "$x = \\frac{3}{7}$",
+                    "$x = -1$"
+                ],
+                correct: 0,
+                explanation: "Express with common base 2:<br>$8 = 2^3$ and $32 = 2^5$.<br>$$(2^3)^{x-1} = (2^5)^{2x} \\implies 2^{3x - 3} = 2^{10x}$$<br>Equate exponents:<br>$$3x - 3 = 10x \\implies -3 = 7x \\implies x = -\\frac{3}{7}$$"
+            },
+            {
+                id: 10,
+                topic: "Exponential Manipulation",
+                topicKey: "manipulation",
+                question: "Solve for $x$: $9^{2x + 1} = 27^{x + 3}$.",
+                options: [
+                    "$x = 7$",
+                    "$x = 5$",
+                    "$x = 3$",
+                    "$x = 9$"
+                ],
+                correct: 0,
+                explanation: "Express with base 3:<br>$9 = 3^2$ and $27 = 3^3$.<br>$$(3^2)^{2x+1} = (3^3)^{x+3} \\implies 3^{4x + 2} = 3^{3x + 9}$$<br>Equate exponents:<br>$$4x + 2 = 3x + 9 \\implies x = 7$$"
+            },
+            {
+                id: 11,
+                topic: "Arithmetic & Geometric Sequences",
+                topicKey: "sequences",
+                question: "An arithmetic sequence has terms $a_3 = 14$ and $a_8 = 39$. Find the $n$-th term formula $a_n$.",
+                options: [
+                    "$a_n = 5n - 1$",
+                    "$a_n = 5n + 4$",
+                    "$a_n = 4n + 2$",
+                    "$a_n = 5n + 14$"
+                ],
+                correct: 0,
+                explanation: "1) Find common difference $d$:<br>$$d = \\frac{a_8 - a_3}{8 - 3} = \\frac{39 - 14}{5} = \\frac{25}{5} = 5$$<br>2) Find $a_1$ using $a_3 = a_1 + 2d$:<br>$$14 = a_1 + 2(5) \\implies a_1 = 4$$<br>3) Explicit formula:<br>$$a_n = a_1 + (n-1)d = 4 + (n-1)5 = 5n - 1$$"
+            },
+            {
+                id: 12,
+                topic: "Arithmetic & Geometric Sequences",
+                topicKey: "sequences",
+                question: "A geometric sequence has terms $a_2 = 18$ and $a_5 = 486$. Find $a_6$.",
+                options: [
+                    "$a_6 = 1458$",
+                    "$a_6 = 972$",
+                    "$a_6 = 1215$",
+                    "$a_6 = 2187$"
+                ],
+                correct: 0,
+                explanation: "1) Find common ratio $r$:<br>$$\\frac{a_5}{a_2} = r^3 = \\frac{486}{18} = 27 \\implies r = 3$$<br>2) Find $a_6$ directly from $a_5$:<br>$$a_6 = a_5 \\cdot r = 486 \\cdot 3 = 1458$$"
+            },
+            {
+                id: 13,
+                topic: "Arithmetic & Geometric Sequences",
+                topicKey: "sequences",
+                question: "Identify whether the sequence $a_n = 4 \\cdot 3^{n-1}$ is arithmetic or geometric, and find its 4th term.",
+                options: [
+                    "Geometric; $a_4 = 108$",
+                    "Arithmetic; $a_4 = 36$",
+                    "Geometric; $a_4 = 36$",
+                    "Geometric; $a_4 = 324$"
+                ],
+                correct: 0,
+                explanation: "The term $3^{n-1}$ represents exponentiation with a common ratio $r=3$, making it **Geometric**.<br>For $n=4$: $a_4 = 4 \\cdot 3^{4-1} = 4 \\cdot 3^3 = 4 \\cdot 27 = 108$."
+            },
+            {
+                id: 14,
+                topic: "Linear, Quadratic, Exponential Tables",
+                topicKey: "tables",
+                question: "Classify the table below:<br><table class='mt-2 mx-auto text-center border-collapse border border-slate-300 dark:border-slate-600 font-mono text-sm'><tr class='bg-slate-100 dark:bg-slate-700'><th class='px-3 py-1 border'>x</th><td class='px-3 py-1 border'>1</td><td class='px-3 py-1 border'>2</td><td class='px-3 py-1 border'>3</td><td class='px-3 py-1 border'>4</td></tr><tr><th class='px-3 py-1 border bg-slate-100 dark:bg-slate-700'>y</th><td class='px-3 py-1 border'>2</td><td class='px-3 py-1 border'>8</td><td class='px-3 py-1 border'>18</td><td class='px-3 py-1 border'>32</td></tr></table>",
+                options: [
+                    "Quadratic, constant 2nd difference (+4)",
+                    "Linear, constant 1st difference (+6)",
+                    "Exponential, common ratio of 4",
+                    "Quadratic, constant 2nd difference (+2)"
+                ],
+                correct: 0,
+                explanation: "1st differences: $8-2=6$, $18-8=10$, $32-18=14$.<br>2nd differences: $10-6=4$, $14-10=4$.<br>Since 2nd differences are constant (+4), model is **Quadratic**."
+            },
+            {
+                id: 15,
+                topic: "Linear, Quadratic, Exponential Tables",
+                topicKey: "tables",
+                question: "Classify the table below:<br><table class='mt-2 mx-auto text-center border-collapse border border-slate-300 dark:border-slate-600 font-mono text-sm'><tr class='bg-slate-100 dark:bg-slate-700'><th class='px-3 py-1 border'>x</th><td class='px-3 py-1 border'>0</td><td class='px-3 py-1 border'>1</td><td class='px-3 py-1 border'>2</td><td class='px-3 py-1 border'>3</td></tr><tr><th class='px-3 py-1 border bg-slate-100 dark:bg-slate-700'>y</th><td class='px-3 py-1 border'>80</td><td class='px-3 py-1 border'>40</td><td class='px-3 py-1 border'>20</td><td class='px-3 py-1 border'>10</td></tr></table>",
+                options: [
+                    "Exponential, common ratio of 0.5",
+                    "Linear, common difference of -40",
+                    "Quadratic, constant 2nd difference",
+                    "Exponential, common ratio of 2"
+                ],
+                correct: 0,
+                explanation: "Successive ratios: $\\frac{40}{80} = 0.5$, $\\frac{20}{40} = 0.5$, $\\frac{10}{20} = 0.5$.<br>Constant multiplier $r = 0.5 \\implies$ **Exponential**."
+            }
+        ];
+
+        // State Variables
+        let activeQuizList = [...fullQuizDatabase];
+        let currentQuestionIdx = 0;
+        let userAnswers = {};
+        let quizMode = 'instant';
+
+        // Scratchpad state
+        let canvas, ctx;
+        let isDrawing = false;
+        let currentTool = 'pen';
+
+        // Study Schedule State
+        let totalLoggedHours = parseFloat(localStorage.getItem('loggedHours') || '0.0');
+        let stopwatchInterval = null;
+        let stopwatchSeconds = 0;
+        let isTimerRunning = false;
+
+        window.onload = function() {
+            initTheme();
+            initScratchpad();
+            renderQuestion();
+            initCountdownTimer();
+            updateScheduleUI();
+        };
+
+        // Tab Switching
+        function switchTab(tab) {
+            document.getElementById('nav-quiz').classList.toggle('tab-active', tab === 'quiz');
+            document.getElementById('nav-schedule').classList.toggle('tab-active', tab === 'schedule');
+            document.getElementById('tab-quiz').classList.toggle('hidden', tab !== 'quiz');
+            document.getElementById('tab-schedule').classList.toggle('hidden', tab !== 'schedule');
+            if (tab === 'quiz') resizeCanvas();
+        }
+
+        // Quiz Filters
+        function applyQuizFilters() {
+            const topic = document.getElementById('topic-filter').value;
+            const count = document.getElementById('count-filter').value;
+
+            activeQuizList = fullQuizDatabase.filter(q => topic === 'all' || q.topicKey === topic);
+
+            if (count !== 'all') {
+                const limit = parseInt(count);
+                activeQuizList = activeQuizList.slice(0, limit);
+            }
+
+            userAnswers = {};
+            currentQuestionIdx = 0;
+            document.getElementById('results-card').classList.add('hidden');
+            document.getElementById('quiz-workspace').classList.remove('hidden');
+            renderQuestion();
+        }
+
+        function changeMode(mode) {
+            quizMode = mode;
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            if (activeQuizList.length === 0) return;
+
+            const q = activeQuizList[currentQuestionIdx];
+            
+            // Stats
+            document.getElementById('question-progress-label').innerText = `Question ${currentQuestionIdx + 1} of ${activeQuizList.length}`;
+            document.getElementById('answered-count-label').innerText = `${Object.keys(userAnswers).length} answered`;
+            document.getElementById('q-category-tag').innerText = q.topic;
+            document.getElementById('q-number-indicator').innerText = `#${currentQuestionIdx + 1}`;
+
+            // Progress bar
+            const pct = ((currentQuestionIdx + 1) / activeQuizList.length) * 100;
+            document.getElementById('quiz-progress-bar').style.width = `${pct}%`;
+
+            // Question Text
+            document.getElementById('question-text').innerHTML = q.question;
+
+            // Options
+            const optsContainer = document.getElementById('options-container');
+            optsContainer.innerHTML = '';
+
+            const selectedOpt = userAnswers[q.id];
+            const isAnswered = selectedOpt !== undefined;
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left p-3.5 sm:p-4 rounded-xl border transition-all duration-200 flex items-center justify-between group ${
+                    selectedOpt === idx 
+                        ? 'border-brand-500 bg-brand-50/60 dark:bg-brand-900/30 text-brand-900 dark:text-brand-200 ring-2 ring-brand-500/30 font-medium' 
+                        : 'border-slate-200 dark:border-slate-700 hover:border-brand-300 dark:hover:border-slate-600 bg-white dark:bg-slate-800'
+                }`;
+
+                // Instant feedback highlights
+                if (quizMode === 'instant' && isAnswered) {
+                    if (idx === q.correct) {
+                        btn.className = 'w-full text-left p-3.5 sm:p-4 rounded-xl border-2 border-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-900 dark:text-emerald-200 font-medium';
+                    } else if (selectedOpt === idx) {
+                        btn.className = 'w-full text-left p-3.5 sm:p-4 rounded-xl border-2 border-rose-500 bg-rose-50 dark:bg-rose-950/30 text-rose-900 dark:text-rose-200';
+                    }
+                }
+
+                btn.onclick = () => {
+                    userAnswers[q.id] = idx;
+                    renderQuestion();
+                };
+
+                const letter = String.fromCharCode(65 + idx);
+                btn.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <span class="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold group-hover:bg-brand-500 group-hover:text-white transition">${letter}</span>
+                        <span class="text-xs sm:text-sm leading-relaxed">${opt}</span>
+                    </div>
+                `;
+                optsContainer.appendChild(btn);
+            });
+
+            // Explanation Box
+            const expBox = document.getElementById('explanation-box');
+            if (quizMode === 'instant' && isAnswered) {
+                expBox.classList.remove('hidden');
+                const isCorrect = selectedOpt === q.correct;
+                const header = document.getElementById('explanation-header');
+                header.className = `font-bold text-xs sm:text-sm mb-2 flex items-center space-x-1.5 ${isCorrect ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`;
+                header.innerHTML = isCorrect ? '<span>✓ Correct!</span>' : `<span>✕ Incorrect. Correct choice is (${String.fromCharCode(65 + q.correct)})</span>`;
+                document.getElementById('explanation-body').innerHTML = q.explanation;
+            } else {
+                expBox.classList.add('hidden');
+            }
+
+            // Buttons
+            document.getElementById('btn-prev-q').disabled = currentQuestionIdx === 0;
+            const btnNext = document.getElementById('btn-next-q');
+            const btnGrade = document.getElementById('btn-grade-exam');
+
+            if (currentQuestionIdx === activeQuizList.length - 1) {
+                btnNext.classList.add('hidden');
+                btnGrade.classList.remove('hidden');
+            } else {
+                btnNext.classList.remove('hidden');
+                btnGrade.classList.add('hidden');
+            }
+
+            // Typeset Math
+            renderMathInElement(document.getElementById('question-text'), { delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}] });
+            renderMathInElement(optsContainer, { delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}] });
+            renderMathInElement(document.getElementById('explanation-body'), { delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}] });
+        }
+
+        function navigateQuestion(direction) {
+            currentQuestionIdx += direction;
+            if (currentQuestionIdx < 0) currentQuestionIdx = 0;
+            if (currentQuestionIdx >= activeQuizList.length) currentQuestionIdx = activeQuizList.length - 1;
+            renderQuestion();
+        }
+
+        function gradeExam() {
+            document.getElementById('quiz-workspace').classList.add('hidden');
+            document.getElementById('results-card').classList.remove('hidden');
+
+            let correctCount = 0;
+            const topicBreakdown = {};
+
+            activeQuizList.forEach(q => {
+                const ans = userAnswers[q.id];
+                const isCorrect = ans === q.correct;
+                if (isCorrect) correctCount++;
+
+                if (!topicBreakdown[q.topic]) topicBreakdown[q.topic] = { correct: 0, total: 0 };
+                topicBreakdown[q.topic].total++;
+                if (isCorrect) topicBreakdown[q.topic].correct++;
+            });
+
+            const pct = Math.round((correctCount / activeQuizList.length) * 100);
+            document.getElementById('final-score-percent').innerText = `${pct}%`;
+            document.getElementById('final-score-fraction').innerText = `${correctCount} of ${activeQuizList.length} Correct`;
+
+            const list = document.getElementById('topic-breakdown-list');
+            list.innerHTML = '';
+            for (const [topic, data] of Object.entries(topicBreakdown)) {
+                const tPct = Math.round((data.correct / data.total) * 100);
+                const item = document.createElement('div');
+                item.className = 'flex items-center justify-between py-1.5 border-b border-slate-100 dark:border-slate-800 last:border-none';
+                item.innerHTML = `
+                    <span class="text-slate-700 dark:text-slate-300 font-medium">${topic}</span>
+                    <div class="flex items-center space-x-2">
+                        <span class="font-bold ${tPct >= 75 ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'}">${tPct}%</span>
+                        <span class="text-slate-400">(${data.correct}/${data.total})</span>
+                    </div>
+                `;
+                list.appendChild(item);
+            }
+
+            const btnRetake = document.getElementById('btn-retake-missed');
+            if (activeQuizList.length - correctCount === 0) {
+                btnRetake.disabled = true;
+                btnRetake.classList.add('opacity-40');
+            } else {
+                btnRetake.disabled = false;
+                btnRetake.classList.remove('opacity-40');
+            }
+        }
+
+        function retakeMissedQuestions() {
+            activeQuizList = activeQuizList.filter(q => userAnswers[q.id] !== q.correct);
+            userAnswers = {};
+            currentQuestionIdx = 0;
+            document.getElementById('results-card').classList.add('hidden');
+            document.getElementById('quiz-workspace').classList.remove('hidden');
+            renderQuestion();
+        }
+
+        function resetQuiz() {
+            applyQuizFilters();
+        }
+
+        // Scratchpad Canvas Engine
+        function initScratchpad() {
+            canvas = document.getElementById('scratch-canvas');
+            ctx = canvas.getContext('2d');
+            resizeCanvas();
+
+            window.addEventListener('resize', resizeCanvas);
+
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseleave', stopDrawing);
+
+            canvas.addEventListener('touchstart', (e) => { e.preventDefault(); startDrawing(e.touches[0]); });
+            canvas.addEventListener('touchmove', (e) => { e.preventDefault(); draw(e.touches[0]); });
+            canvas.addEventListener('touchend', stopDrawing);
+        }
+
+        function resizeCanvas() {
+            if (!canvas) return;
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+        }
+
+        function setScratchTool(tool) {
+            currentTool = tool;
+            document.getElementById('tool-pen').className = tool === 'pen' ? 'px-2.5 py-1 text-xs rounded-lg bg-brand-100 dark:bg-brand-900/60 text-brand-700 dark:text-brand-300 font-semibold' : 'px-2.5 py-1 text-xs rounded-lg border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 font-semibold';
+            document.getElementById('tool-eraser').className = tool === 'eraser' ? 'px-2.5 py-1 text-xs rounded-lg bg-brand-100 dark:bg-brand-900/60 text-brand-700 dark:text-brand-300 font-semibold' : 'px-2.5 py-1 text-xs rounded-lg border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 font-semibold';
+        }
+
+        function clearScratchpad() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function getCanvasCoords(e) {
+            const rect = canvas.getBoundingClientRect();
+            return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+        }
+
+        function startDrawing(e) {
+            isDrawing = true;
+            const pos = getCanvasCoords(e);
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            const pos = getCanvasCoords(e);
+            ctx.lineWidth = currentTool === 'eraser' ? 16 : 2;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = currentTool === 'eraser' 
+                ? (document.documentElement.classList.contains('dark') ? '#0f172a' : '#f8fafc')
+                : (document.documentElement.classList.contains('dark') ? '#38bdf8' : '#2563eb');
+
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+        }
+
+        function stopDrawing() { isDrawing = false; }
+
+        // Schedule & Timer Engine
+        function initCountdownTimer() {
+            function updateTimer() {
+                // Target Thursday 8:00 AM
+                const now = new Date();
+                let target = new Date();
+                target.setDate(now.getDate() + ((4 + 7 - now.getDay()) % 7));
+                target.setHours(8, 0, 0, 0);
+
+                const diff = target - now;
+                if (diff <= 0) {
+                    document.getElementById('countdown-timer-display').innerText = "Exam Day!";
+                    return;
+                }
+
+                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                const m = Math.floor((diff / 1000 / 60) % 60);
+                const s = Math.floor((diff / 1000) % 60);
+
+                document.getElementById('countdown-timer-display').innerText = 
+                    `${String(d).padStart(2,'0')}d ${String(h).padStart(2,'0')}h ${String(m).padStart(2,'0')}m ${String(s).padStart(2,'0')}s`;
+            }
+            updateTimer();
+            setInterval(updateTimer, 1000);
+        }
+
+        function toggleStopwatch() {
+            const btn = document.getElementById('btn-timer-start');
+            if (isTimerRunning) {
+                clearInterval(stopwatchInterval);
+                isTimerRunning = false;
+                btn.innerText = "Resume Timer";
+                document.getElementById('stopwatch-status').innerText = "(Paused)";
+            } else {
+                isTimerRunning = true;
+                btn.innerText = "Pause Timer";
+                document.getElementById('stopwatch-status').innerText = "(Running)";
+                stopwatchInterval = setInterval(() => {
+                    stopwatchSeconds++;
+                    const hrs = Math.floor(stopwatchSeconds / 3600);
+                    const mins = Math.floor((stopwatchSeconds % 3600) / 60);
+                    const secs = stopwatchSeconds % 60;
+                    document.getElementById('stopwatch-display').innerText = 
+                        `${String(hrs).padStart(2,'0')}:${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+                }, 1000);
+            }
+        }
+
+        function resetStopwatch() {
+            clearInterval(stopwatchInterval);
+            isTimerRunning = false;
+            stopwatchSeconds = 0;
+            document.getElementById('stopwatch-display').innerText = "00:00:00";
+            document.getElementById('btn-timer-start').innerText = "Start Timer";
+            document.getElementById('stopwatch-status').innerText = "(Paused)";
+        }
+
+        function logStopwatchTime() {
+            if (stopwatchSeconds < 60) return;
+            const hoursLogged = stopwatchSeconds / 3600;
+            totalLoggedHours += hoursLogged;
+            localStorage.setItem('loggedHours', totalLoggedHours.toFixed(1));
+            resetStopwatch();
+            updateScheduleUI();
+        }
+
+        function logManualTime() {
+            const val = parseFloat(document.getElementById('manual-hours-input').value);
+            if (!isNaN(val) && val > 0) {
+                totalLoggedHours += val;
+                localStorage.setItem('loggedHours', totalLoggedHours.toFixed(1));
+                document.getElementById('manual-hours-input').value = '';
+                updateScheduleUI();
+            }
+        }
+
+        function updateScheduleUI() {
+            const goal = 5.0;
+            const pct = Math.min(100, Math.round((totalLoggedHours / goal) * 100));
+            document.getElementById('total-logged-text').innerText = `${totalLoggedHours.toFixed(1)} / ${goal.toFixed(1)} Hours Logged`;
+            document.getElementById('schedule-progress-bar').style.width = `${pct}%`;
+        }
+
+        function updateTaskProgress() {
+            // Visual feedback for checklist items
+        }
+
+        // Theme Support
+        function initTheme() {
+            if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                document.getElementById('theme-toggle-light-icon').classList.remove('hidden');
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.getElementById('theme-toggle-dark-icon').classList.remove('hidden');
+            }
+        }
+
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+                document.getElementById('theme-toggle-dark-icon').classList.remove('hidden');
+                document.getElementById('theme-toggle-light-icon').classList.add('hidden');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+                document.getElementById('theme-toggle-light-icon').classList.remove('hidden');
+                document.getElementById('theme-toggle-dark-icon').classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
